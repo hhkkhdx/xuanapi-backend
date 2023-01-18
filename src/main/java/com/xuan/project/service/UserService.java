@@ -44,10 +44,10 @@ public interface UserService extends IService<User> {
     /**
      * 是否为管理员
      *
-     * @param request
+     * @param user
      * @return
      */
-    boolean isAdmin(HttpServletRequest request);
+    boolean isAdmin(User user);
 
     /**
      * 用户注销

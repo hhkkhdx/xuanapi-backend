@@ -1,7 +1,13 @@
 package com.xuan.project.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xuan.project.common.DeleteRequest;
+import com.xuan.project.model.dto.interfaceInfo.InterfaceInfoAddRequest;
+import com.xuan.project.model.dto.interfaceInfo.InterfaceInfoQueryRequest;
+import com.xuan.project.model.dto.interfaceInfo.InterfaceInfoUpdateRequest;
 import com.xuan.project.model.entity.InterfaceInfo;
+import com.xuan.project.model.entity.User;
 
 /**
 * @author 炫
@@ -10,5 +16,33 @@ import com.xuan.project.model.entity.InterfaceInfo;
 */
 public interface InterfaceInfoService extends IService<InterfaceInfo> {
 
-    void validInterfaceInfo(InterfaceInfo interfaceInfo, boolean b);
+    void validInterfaceInfo(InterfaceInfo interfaceInfo);
+
+    /**
+     * @description: 添加接口
+     * @author: xuan
+     * @date: 2023/1/18 13:32
+     **/
+    Boolean addInterface(InterfaceInfoAddRequest interfaceInfoAddRequest, User loginUser);
+
+    /**
+     * @description: 删除接口
+     * @author: xuan
+     * @date: 2023/1/19 0:17
+     **/
+    Boolean deleteInterface(DeleteRequest deleteRequest, User loginUser);
+
+    /**
+     * @description: 更新接口
+     * @author: xuan
+     * @date: 2023/1/19 0:32
+     **/
+    Boolean updateInterface(InterfaceInfoUpdateRequest interfaceInfoUpdateRequest, User loginUser);
+
+    /**
+     * @description: 分页获取接口信息
+     * @author: xuan
+     * @date: 2023/1/19 0:49
+     **/
+    Page<InterfaceInfo> listInterfaceInfoByPage(InterfaceInfoQueryRequest interfaceInfoQueryRequest, User loginUser);
 }
