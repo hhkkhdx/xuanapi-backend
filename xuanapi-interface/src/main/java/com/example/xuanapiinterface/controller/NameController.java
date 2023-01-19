@@ -44,6 +44,7 @@ public class NameController {
         return "Your name is " + user.getUsername() + ", post.";
     }
 
+    // todo 读取数据库 编写通用调用方法
 
 
 }

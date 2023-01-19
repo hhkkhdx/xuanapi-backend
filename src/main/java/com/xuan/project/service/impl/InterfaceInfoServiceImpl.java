@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xuan.project.common.DeleteRequest;
 import com.xuan.project.common.ErrorCode;
+import com.xuan.project.common.IdRequest;
 import com.xuan.project.constant.CommonConstant;
 import com.xuan.project.exception.BusinessException;
 import com.xuan.project.mapper.InterfaceInfoMapper;
@@ -169,6 +170,47 @@ public class InterfaceInfoServiceImpl extends ServiceImpl<InterfaceInfoMapper, I
         }
         queryWrapper.orderBy(StringUtils.isNotBlank(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC), sortField);
         return this.page(new Page<>(current, size), queryWrapper);
+    }
+
+    @Override
+    public Boolean onlineInterfaceInfo(IdRequest idRequest) {
+        if (idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Long id = idRequest.getId();
+        InterfaceInfo interfaceInfo = this.getById(id);
+        if (interfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "接口不存在");
+        }
+        // todo 判断该接口是否可调用 XuanApiClient => 封装接口调用方法 => 查数据库
+
+
+        if (interfaceInfo.getStatus().equals(InterfaceStatusEnum.OPEN.getValue())) {
+            return true;
+        }
+        InterfaceInfo newInterfaceInfo = new InterfaceInfo();
+        newInterfaceInfo.setId(id);
+        newInterfaceInfo.setStatus(InterfaceStatusEnum.OPEN.getValue());
+        return this.updateById(newInterfaceInfo);
+    }
+
+    @Override
+    public Boolean offlineInterfaceInfo(IdRequest idRequest) {
+        if (idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Long id = idRequest.getId();
+        InterfaceInfo interfaceInfo = this.getById(id);
+        if (interfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "接口不存在");
+        }
+        if (interfaceInfo.getStatus().equals(InterfaceStatusEnum.CLOSE.getValue())) {
+            return true;
+        }
+        InterfaceInfo newInterfaceInfo = new InterfaceInfo();
+        newInterfaceInfo.setId(id);
+        newInterfaceInfo.setStatus(InterfaceStatusEnum.CLOSE.getValue());
+        return this.updateById(newInterfaceInfo);
     }
 
 

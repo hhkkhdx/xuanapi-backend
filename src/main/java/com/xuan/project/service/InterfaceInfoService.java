@@ -3,6 +3,7 @@ package com.xuan.project.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xuan.project.common.DeleteRequest;
+import com.xuan.project.common.IdRequest;
 import com.xuan.project.model.dto.interfaceInfo.InterfaceInfoAddRequest;
 import com.xuan.project.model.dto.interfaceInfo.InterfaceInfoQueryRequest;
 import com.xuan.project.model.dto.interfaceInfo.InterfaceInfoUpdateRequest;
@@ -45,4 +46,18 @@ public interface InterfaceInfoService extends IService<InterfaceInfo> {
      * @date: 2023/1/19 0:49
      **/
     Page<InterfaceInfo> listInterfaceInfoByPage(InterfaceInfoQueryRequest interfaceInfoQueryRequest, User loginUser);
+
+    /**
+     * @description: 发布接口
+     * @author: xuan
+     * @date: 2023/1/20 0:34
+     **/
+    Boolean onlineInterfaceInfo(IdRequest idRequest);
+
+    /**
+     * @description: 下线接口
+     * @author: xuan
+     * @date: 2023/1/20 0:35
+     **/
+    Boolean offlineInterfaceInfo(IdRequest idRequest);
 }

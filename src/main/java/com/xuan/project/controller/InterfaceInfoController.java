@@ -3,10 +3,7 @@ package com.xuan.project.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xuan.project.annotation.AuthCheck;
-import com.xuan.project.common.BaseResponse;
-import com.xuan.project.common.DeleteRequest;
-import com.xuan.project.common.ErrorCode;
-import com.xuan.project.common.ResultUtils;
+import com.xuan.project.common.*;
 import com.xuan.project.exception.BusinessException;
 import com.xuan.project.model.dto.interfaceInfo.InterfaceInfoAddRequest;
 import com.xuan.project.model.dto.interfaceInfo.InterfaceInfoQueryRequest;
@@ -154,5 +151,37 @@ public class InterfaceInfoController {
     }
 
     // endregion
+
+    /**
+     * @description: 发布接口 仅管理员可调用
+     * @author: xuan
+     * @date: 2023/1/20 0:33
+     **/
+    @AuthCheck(mustRole = "admin")
+    @PostMapping("/online")
+    public BaseResponse<Boolean> onlineInterfaceInfo(@RequestBody IdRequest idRequest, HttpServletRequest request) {
+        if (idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Boolean result = interfaceInfoService.onlineInterfaceInfo(idRequest);
+
+        return ResultUtils.success(result);
+    }
+
+    /**
+     * @description: 下线接口 仅管理员可调用
+     * @author: xuan
+     * @date: 2023/1/20 0:33
+     **/
+    @AuthCheck(mustRole = "admin")
+    @PostMapping("/offline")
+    public BaseResponse<Boolean> offlineInterfaceInfo(@RequestBody IdRequest idRequest, HttpServletRequest request) {
+        if (idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Boolean result = interfaceInfoService.offlineInterfaceInfo(idRequest);
+
+        return ResultUtils.success(result);
+    }
 
 }
