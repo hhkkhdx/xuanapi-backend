@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xuan.project.annotation.AuthCheck;
 import com.xuan.project.common.*;
+import com.xuan.project.constant.UserConstant;
 import com.xuan.project.exception.BusinessException;
 import com.xuan.project.model.dto.interfaceInfo.InterfaceInfoAddRequest;
 import com.xuan.project.model.dto.interfaceInfo.InterfaceInfoQueryRequest;
@@ -13,7 +14,6 @@ import com.xuan.project.model.entity.User;
 import com.xuan.project.service.InterfaceInfoService;
 import com.xuan.project.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -121,7 +121,7 @@ public class InterfaceInfoController {
      * @param interfaceInfoQueryRequest
      * @return
      */
-    @AuthCheck(mustRole = "admin")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     @GetMapping("/list")
     public BaseResponse<List<InterfaceInfo>> listInterfaceInfo(InterfaceInfoQueryRequest interfaceInfoQueryRequest) {
         InterfaceInfo interfaceInfoQuery = new InterfaceInfo();
@@ -157,14 +157,13 @@ public class InterfaceInfoController {
      * @author: xuan
      * @date: 2023/1/20 0:33
      **/
-    @AuthCheck(mustRole = "admin")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     @PostMapping("/online")
     public BaseResponse<Boolean> onlineInterfaceInfo(@RequestBody IdRequest idRequest, HttpServletRequest request) {
         if (idRequest == null || idRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         Boolean result = interfaceInfoService.onlineInterfaceInfo(idRequest);
-
         return ResultUtils.success(result);
     }
 
@@ -173,15 +172,24 @@ public class InterfaceInfoController {
      * @author: xuan
      * @date: 2023/1/20 0:33
      **/
-    @AuthCheck(mustRole = "admin")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     @PostMapping("/offline")
     public BaseResponse<Boolean> offlineInterfaceInfo(@RequestBody IdRequest idRequest, HttpServletRequest request) {
         if (idRequest == null || idRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         Boolean result = interfaceInfoService.offlineInterfaceInfo(idRequest);
-
         return ResultUtils.success(result);
     }
 
+    /**
+     * @description: 调用接口
+     * @author: xuan
+     * @date: 2023/1/20 1:45
+     **/
+    @PostMapping("/invoke")
+    public BaseResponse<Boolean> invokeInterfaceInfo(@RequestBody IdRequest idRequest, HttpServletRequest request) {
+        // todo 编写调用逻辑
+        return ResultUtils.success(false);
+    }
 }
